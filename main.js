@@ -1,7 +1,26 @@
 let AppTitle = () =>
     <h1 id='page-title'>Churper</h1>;
 
-class NewChurpForm extends React.Component {
+let NewChurpForm = (props) =>{
+    return <form className='new-churp-form'
+            onSubmit= { (event) => {
+                event.preventDefault();
+                props.addChurp(props.newChurp);
+            }
+        }>
+            <input
+                type= 'text'
+                value= {props.newChurp} 
+                onChange= {(event)=> {
+                    let value = event.target.value;
+                    props.setNewChurp(value)
+                }
+            }/>
+            <button type='submit'>Submit</button>
+        </form>
+}
+
+class NewChurpContainer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -9,22 +28,13 @@ class NewChurpForm extends React.Component {
         }
     }
     render(){
-        return( <form className='new-churp-form'
-            onSubmit= { (event) => {
-                event.preventDefault();
-                this.props.addChurp(this.state.newChurp);
-            }
-        }>
-            <input
-                type= 'text'
-                value= {this.state.newChurp} 
-                onChange= {(event)=> {
-                    let value = event.target.value;
-                    this.setState({newChurp: value})
-                }
-            }/>
-            <button type='submit'>Submit</button>
-        </form>);
+        let setNewChurp =(value)=>{
+            this.setState({newChurp: value})
+        }
+        return <NewChurpForm 
+        {...this.state} 
+        {...this.props} 
+        setNewChurp= {setNewChurp} />
     }
 };
 
@@ -75,7 +85,7 @@ class Homepage extends React.Component {
 
         return (<div className= 'whole-page'>
             <AppTitle/>
-            <NewChurpForm addChurp= {addChurp}/>
+            <NewChurpContainer addChurp= {addChurp}/>
             <ChurpList churps= {this.state.churps}/>
             </div>
         )};
