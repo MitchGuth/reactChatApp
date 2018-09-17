@@ -53,7 +53,15 @@ let ChurpList = (props) =>
 let generateId = () =>
   Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString();
 
-class Homepage extends React.Component {
+let Homepage = (props) =>{
+    return <div className= 'whole-page'>
+            <AppTitle/>
+            <NewChurpContainer addChurp= {props.addChurp}/>
+            <ChurpList churps= {props.churps}/>
+            </div>
+}
+
+class HomepageContainer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -83,12 +91,10 @@ class Homepage extends React.Component {
             })
         }
 
-        return (<div className= 'whole-page'>
-            <AppTitle/>
-            <NewChurpContainer addChurp= {addChurp}/>
-            <ChurpList churps= {this.state.churps}/>
-            </div>
-        )};
-};
+        return <Homepage {...this.state} 
+            {...this.props} 
+            addChurp ={addChurp}/>
 
-ReactDOM.render( <Homepage/>, document.querySelector('.react-root') );
+    };
+};
+ReactDOM.render( <HomepageContainer/>, document.querySelector('.react-root') );
